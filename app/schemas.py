@@ -5,26 +5,30 @@ from pydantic import BaseModel
 
 
 class ItemBase(BaseModel):
-    modified_at: Union[datetime, None] = None
     category1: Union[str, None] = None
     category2: Union[str, None] = None
     category3: Union[str, None] = None
     item_code: Union[str, None] = None
-    name: str
+    name: Union[str, None] = None
     detail: Union[str, None] = None
     unit_volume: Union[str, None] = None
     unit_weight: Union[str, None] = None
     memo: Union[str, None] = None
-    is_deleted: bool
-    deleted_at: Union[datetime, None] = None
+
+
+class ItemUpdate(ItemBase):
+    is_deleted: Union[bool, None] = None
 
 
 class ItemCreate(ItemBase):
-    inserted_at: datetime
+    name: str
 
 
-class Item(ItemCreate):
-    id: int
+class Item(ItemUpdate):
+    id: Union[int, None] = None
+    inserted_at: Union[datetime, None] = None
+    modified_at: Union[datetime, None] = None
+    deleted_at: Union[datetime, None] = None
 
     class Config:
         orm_mode = True
